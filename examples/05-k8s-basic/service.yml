@@ -1,0 +1,40 @@
+# ============================================
+# Kubernetes Service
+# ============================================
+# Service 为 Pod 提供稳定的网络访问入口
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-service
+  namespace: demo-app
+  labels:
+    app: demo-app
+spec:
+  type: ClusterIP  # 集群内部访问
+  selector:
+    app: demo-app
+  ports:
+    - name: http
+      port: 80          # Service 端口
+      targetPort: 80    # 容器端口
+      protocol: TCP
+---
+# NodePort Service - 通过节点端口外部访问
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-nodeport
+  namespace: demo-app
+  labels:
+    app: demo-app
+spec:
+  type: NodePort
+  selector:
+    app: demo-app
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080    # 节点端口（30000-32767）
+      protocol: TCP

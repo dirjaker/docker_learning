@@ -1,0 +1,65 @@
+# ============================================
+# Kubernetes Ingress
+# ============================================
+# Ingress 管理外部对集群服务的 HTTP/HTTPS 访问
+# 需要集群中安装 Ingress Controller（如 nginx-ingress）
+# ============================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-app-ingress
+  namespace: demo-app
+  labels:
+    app: demo-app
+  annotations:
+    # Nginx Ingress Controller 注解
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    # 基于主机名的路由
+    - host: demo-app.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-app-service
+                port:
+                  number: 80
+    # 基于路径的路由
+    - host: api.local
+      http:
+        paths:
+          - path: /demo
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-app-service
+                port:
+                  number: 80
+---
+# TLS 配置示例（可选）
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: demo-app-tls-ingress
+#   namespace: demo-app
+# spec:
+#   tls:
+#     - hosts:
+#         - demo-app.example.com
+#       secretName: demo-app-tls
+#   rules:
+#     - host: demo-app.example.com
+#       http:
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             backend:
+#               service:
+#                 name: demo-app-service
+#                 port:
+#                   number: 80

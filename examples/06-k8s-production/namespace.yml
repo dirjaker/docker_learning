@@ -1,0 +1,10 @@
+# ============================================
+# Kubernetes Namespace - 生产环境
+# ============================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    app: production
+    environment: production

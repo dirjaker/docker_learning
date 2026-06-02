@@ -1,0 +1,20 @@
+# ============================================
+# PostgreSQL PersistentVolumeClaim
+# ============================================
+# PVC 用于持久化存储数据库数据
+# 即使 Pod 被删除重建，数据也不会丢失
+# ============================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: production
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce  # 单节点读写
+  storageClassName: standard  # 使用默认存储类，根据集群调整
+  resources:
+    requests:
+      storage: 5Gi  # 请求 5GB 存储空间
