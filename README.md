@@ -1,3 +1,20 @@
+<div align="center">
+
+# 🐳 Docker Learning
+
+### Docker & Kubernetes 学习实战
+
+[![示例](https://img.shields.io/badge/示例-15+-blue?style=flat-square)]()
+[![阶段](https://img.shields.io/badge/阶段-4-green?style=flat-square)]()
+[![技术](https://img.shields.io/badge/技术-K8s-orange?style=flat-square)]()
+[![更新](https://img.shields.io/badge/更新-2025.06-red?style=flat-square)]()
+
+*基础操作 · Docker Compose · K8s 集群 · 生产部署 · 从入门到实战*
+
+</div>
+
+---
+
 # Docker & Kubernetes 从零到实战
 
 > 从 Docker 基础到 Kubernetes 集群部署，手把手教你掌握容器化技术栈
@@ -221,3 +238,4 @@ kubectl get pods
 ## 许可证
 
 本项目采用 MIT 许可证，欢迎自由使用和分享。
+
