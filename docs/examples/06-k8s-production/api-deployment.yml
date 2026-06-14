@@ -1,0 +1,96 @@
+# ============================================
+# API Deployment - 生产级部署
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: production
+  labels:
+    app: api
+    tier: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+      annotations:
+        # 配置变更时自动重启 Pod
+        checksum/config: "configmap-checksum"
+    spec:
+      # 优雅终止时间
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: api
+          image: nginx:alpine  # 示例镜像，替换为实际 API 镜像
+          ports:
+            - containerPort: 80
+              name: http
+          # 从 ConfigMap 注入环境变量
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: APP_ENV
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: api-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: POSTGRES_PASSWORD
+          # 资源限制
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          # 就绪探针
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          # 存活探针
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          # 启动探针（给应用足够的启动时间）
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 30
+            periodSeconds: 10
+          # 优雅关闭
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 5"]

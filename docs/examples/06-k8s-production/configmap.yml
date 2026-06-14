@@ -1,0 +1,24 @@
+# ============================================
+# ConfigMap - 应用配置
+# ============================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: production
+  labels:
+    app: api
+data:
+  # 应用配置
+  APP_ENV: "production"
+  APP_NAME: "production-api"
+  LOG_LEVEL: "warning"
+  LOG_FORMAT: "json"
+  # 数据库配置（非敏感）
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "appdb"
+  # Redis 配置
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"

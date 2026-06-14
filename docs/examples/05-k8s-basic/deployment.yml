@@ -1,0 +1,68 @@
+# ============================================
+# Kubernetes Deployment
+# ============================================
+# Deployment 管理 Pod 的副本数量和更新策略
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: demo-app
+  labels:
+    app: demo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # 更新时最多多出 1 个 Pod
+      maxUnavailable: 0   # 更新时不允许不可用
+  template:
+    metadata:
+      labels:
+        app: demo-app
+        version: v1
+    spec:
+      containers:
+        - name: demo-app
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+              name: http
+          # 环境变量
+          env:
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: demo-config
+                  key: APP_ENV
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: demo-config
+                  key: APP_NAME
+          # 资源限制
+          resources:
+            requests:
+              cpu: "100m"      # 0.1 核 CPU
+              memory: "128Mi"  # 128 MB 内存
+            limits:
+              cpu: "200m"      # 0.2 核 CPU
+              memory: "256Mi"  # 256 MB 内存
+          # 就绪探针 - 判断容器是否准备好接收流量
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # 存活探针 - 判断容器是否正常运行
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20

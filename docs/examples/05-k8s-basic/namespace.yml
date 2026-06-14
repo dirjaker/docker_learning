@@ -1,0 +1,12 @@
+# ============================================
+# Kubernetes Namespace
+# ============================================
+# 命名空间用于隔离不同的应用或环境
+# ============================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-app
+  labels:
+    app: demo-app
+    environment: development

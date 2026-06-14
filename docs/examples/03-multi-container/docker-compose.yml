@@ -1,0 +1,70 @@
+# ============================================
+# 多容器应用 - Docker Compose 示例
+# ============================================
+# 架构：
+#   Web (Flask) --> RabbitMQ (消息队列) --> Worker (后台处理)
+#   用户请求 → Web 提交任务 → RabbitMQ 传递 → Worker 处理 → 结果返回
+# ============================================
+
+version: "3.8"
+
+services:
+  # ---- 消息队列 ----
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"     # AMQP 协议端口
+      - "15672:15672"   # 管理界面端口
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # ---- Web 前端 ----
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      PORT: 5000
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # ---- Worker 后端 ----
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    # 可以部署多个 worker 实例
+    deploy:
+      replicas: 2
+    networks:
+      - app-network
+
+volumes:
+  rabbitmq_data:
+
+networks:
+  app-network:
+    driver: bridge

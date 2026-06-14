@@ -1,0 +1,14 @@
+{
+  "name": "docker-learning",
+  "version": "1.0.0",
+  "description": "Docker & Kubernetes 学习实战",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

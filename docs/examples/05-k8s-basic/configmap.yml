@@ -1,0 +1,39 @@
+# ============================================
+# Kubernetes ConfigMap
+# ============================================
+# ConfigMap 用于存储非敏感的配置数据
+# ============================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config
+  namespace: demo-app
+  labels:
+    app: demo-app
+data:
+  # 简单键值对
+  APP_ENV: "development"
+  APP_NAME: "demo-app"
+  APP_PORT: "80"
+  LOG_LEVEL: "info"
+  # 配置文件形式
+  nginx.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+
+        location /health {
+            return 200 '{"status": "healthy"}';
+            add_header Content-Type application/json;
+        }
+
+        location /info {
+            return 200 '{"app": "demo-app", "env": "development"}';
+            add_header Content-Type application/json;
+        }
+    }
