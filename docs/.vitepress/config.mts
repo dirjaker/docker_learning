@@ -13,6 +13,7 @@ export default defineConfig({
       { text: 'Docker Compose', link: '/05-Docker-Compose入门' },
       { text: 'Kubernetes', link: '/07-Kubernetes基础概念' },
       { text: '速查表', link: '/cheatsheets/docker-cheatsheet' },
+      { text: '更新日志', link: '/CHANGELOG' },
       { text: 'GitHub', link: 'https://github.com/dirjaker/docker_learning' }
     ],
     sidebar: [
@@ -48,6 +49,17 @@ export default defineConfig({
           { text: 'Docker 速查', link: '/cheatsheets/docker-cheatsheet' },
           { text: 'Compose 速查', link: '/cheatsheets/compose-cheatsheet' },
           { text: 'K8s 速查', link: '/cheatsheets/k8s-cheatsheet' },
+        ]
+      },
+      {
+        text: '实战示例',
+        items: [
+          { text: '01 - Hello Docker', link: '/examples/01-hello-docker/' },
+          { text: '02 - Python Flask 应用', link: '/examples/02-python-app/' },
+          { text: '03 - 多容器应用', link: '/examples/03-multi-container/' },
+          { text: '04 - Docker Compose 示例', link: '/examples/04-docker-compose/' },
+          { text: '05 - K8s 基础部署', link: '/examples/05-k8s-basic/' },
+          { text: '06 - K8s 生产级部署', link: '/examples/06-k8s-production/' },
         ]
       }
     ],
