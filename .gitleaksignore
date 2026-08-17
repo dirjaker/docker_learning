@@ -1,0 +1,14 @@
+# 本文件由 Hermes 防线脚本生成 (2026-08-17)
+# 以下条目均为【教学示例/占位符密钥】，非真实凭据，已人工确认可忽略。
+# 若未来出现新的真实泄露，不会自动加入此文件，扫描脚本会单独报警。
+
+57bef2846d97c7f1f4bac4d3e7949c3ad720ff65:docs/09-Kubernetes网络与存储.md:generic-api-key:430
+57bef2846d97c7f1f4bac4d3e7949c3ad720ff65:docs/09-Kubernetes网络与存储.md:generic-api-key:844
+57bef2846d97c7f1f4bac4d3e7949c3ad720ff65:docs/examples/06-k8s-production/secret.yml:generic-api-key:25
+57bef2846d97c7f1f4bac4d3e7949c3ad720ff65:docs/examples/06-k8s-production/secret.yml:generic-api-key:26
+57bef2846d97c7f1f4bac4d3e7949c3ad720ff65:docs/examples/06-k8s-production/secret.yml:kubernetes-secret-yaml:15
+97946f54b84a7066a1a7f057ded50b929c676dc1:09-Kubernetes网络与存储.md:generic-api-key:430
+97946f54b84a7066a1a7f057ded50b929c676dc1:09-Kubernetes网络与存储.md:generic-api-key:844
+97946f54b84a7066a1a7f057ded50b929c676dc1:examples/06-k8s-production/secret.yml:generic-api-key:25
+97946f54b84a7066a1a7f057ded50b929c676dc1:examples/06-k8s-production/secret.yml:generic-api-key:26
+97946f54b84a7066a1a7f057ded50b929c676dc1:examples/06-k8s-production/secret.yml:kubernetes-secret-yaml:15
